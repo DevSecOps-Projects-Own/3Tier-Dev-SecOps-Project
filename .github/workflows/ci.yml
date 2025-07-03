@@ -107,14 +107,14 @@ jobs:
     # SonarCloud Scan (works with SONAR_TOKEN)
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v2.1.1
-      if: ${{ secrets.SONAR_TOKEN != '' }}
+      if: ${{ secrets.SONAR_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
     # Alternative: Manual SonarQube Scanner for self-hosted
     - name: Setup SonarQube Scanner
-      if: ${{ secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != '' }}
+      if: ${{ secrets.SONAR_TOKEN && secrets.SONAR_HOST_URL }}
       run: |
         echo "📊 Setting up SonarQube Scanner for self-hosted..."
         # Download SonarQube Scanner
@@ -141,7 +141,7 @@ jobs:
     
     # Fallback message if no SonarQube is configured
     - name: SonarQube Not Configured
-      if: ${{ secrets.SONAR_TOKEN == '' }}
+      if: ${{ !secrets.SONAR_TOKEN }}
       run: |
         echo "⚠️ SonarQube is not configured"
         echo "To enable SonarQube analysis:"
